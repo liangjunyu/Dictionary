@@ -49,7 +49,7 @@
 	<vector>
 	<ctime>
 
-1464016975 d:\programming\oop\dictionary\src\word_library.h
+1464102821 d:\programming\oop\dictionary\src\word_library.h
 	<string>
 	<vector>
 	<map>
@@ -60,12 +60,12 @@
 	<string>
 	<vector>
 
-1464015792 d:\programming\oop\dictionary\src\review_history_library.h
+1464106262 d:\programming\oop\dictionary\src\review_history_library.h
 	<string>
 	<vector>
 	<ctime>
 
-1464015868 source:d:\programming\oop\dictionary\src\review_history_library.cpp
+1464106285 source:d:\programming\oop\dictionary\src\review_history_library.cpp
 	"review_history_library.h"
 	"word_library.h"
 	<vector>
@@ -81,7 +81,7 @@
 	<ctime>
 	"search_history_library.h"
 
-1464017342 source:d:\programming\oop\dictionary\src\word_library.cpp
+1464102821 source:d:\programming\oop\dictionary\src\word_library.cpp
 	<vector>
 	"word_library.h"
 	<string>
@@ -94,7 +94,7 @@
 	<cstdlib>
 	<ctime>
 
-1464017405 source:d:\programming\oop\dictionary\src\main.cpp
+1464106999 source:d:\programming\oop\dictionary\src\main.cpp
 	<iostream>
 	<string>
 	<vector>
@@ -102,8 +102,10 @@
 	"search_history_library.h"
 	"review_history_library.h"
 	"search_strategy.h"
+	"file_translation.h"
+	"review_strategy.h"
 
-1464004377 d:\programming\oop\dictionary\src\search_strategy.h
+1464102821 d:\programming\oop\dictionary\src\search_strategy.h
 	<cstdio>
 	<climits>
 	<cstring>
@@ -111,7 +113,23 @@
 	<vector>
 	"word_library.h"
 
-1464004377 source:d:\programming\oop\dictionary\src\search_strategy.cpp
+1464102821 source:d:\programming\oop\dictionary\src\search_strategy.cpp
 	"search_strategy.h"
 	<iostream>
+
+1464018174 d:\programming\oop\dictionary\src\file_translation.h
+	"word_library.h"
+	"search_strategy.h"
+	<iostream>
+	<string.h>
+	<string>
+	<fstream>
+
+1464102821 source:d:\programming\oop\dictionary\src\review_strategy.cpp
+	"review_strategy.h"
+
+1464102821 d:\programming\oop\dictionary\src\review_strategy.h
+	<iostream>
+	"word_library.h"
+	"review_history_library.h"
 

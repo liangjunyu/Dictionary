@@ -36,6 +36,8 @@
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/review_history_library.cpp" />
 		<Unit filename="src/review_history_library.h" />
+		<Unit filename="src/review_strategy.cpp" />
+		<Unit filename="src/review_strategy.h" />
 		<Unit filename="src/search_history_library.cpp" />
 		<Unit filename="src/search_history_library.h" />
 		<Unit filename="src/search_strategy.cpp" />

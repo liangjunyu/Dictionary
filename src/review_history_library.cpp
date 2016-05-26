@@ -27,27 +27,30 @@ void review_history_library::insert_review_history(string& new_history)
         time_t currenttime;
         time(&currenttime);
         struct tm *current = localtime(&currenttime);
-        if(current->tm_year == lists[lists.size()].get_year() && current->tm_yday == lists[lists.size()].get_yday())
-                lists[lists.size()].insert_review_history(new_history);
+        if(!lists.empty() && current->tm_year == lists[lists.size()-1].get_year() && current->tm_yday == lists[lists.size()-1].get_yday())
+        {
+                lists[lists.size()-1].insert_review_history_inlist(new_history);
+        }
         else
         {
                 review_list new_list(current->tm_year, current->tm_yday);
                 lists.push_back(new_list);
-                lists[lists.size()-1].insert_review_history(new_history);
+                lists[lists.size()-1].insert_review_history_inlist(new_history);
         }
+        cout << 000 << new_history << endl;
 		word_lib.newwords.erase(new_history);
+		cout << 001 << new_history << endl;
 }
 
 void review_history_library::clear_review_history()
 {
         lists.clear();
-        //clear the file...
 }
 
 vector<string> review_history_library::get_list(int days)
 {
 	if(lists.size()-1-days >= 0)
-		return lists[lists.size()-1-days].get_histories();
+		return lists[(int)lists.size()-1-days].get_histories();
 	else
 	{
 		vector<string> empty_list;
@@ -72,26 +75,41 @@ review_history_library::review_history_library()
 		if(_year < 0) break;
 		fin >> _yday;
 		review_list new_list(_year, _yday);
-		lists.push_back(new_list);
 		fin >> tmp;
 		while(tmp != "#")
 		{
-			new_list.insert_review_history(tmp);
+			cout << "ready to insert " << tmp << "...\n";
+			new_list.insert_review_history_inlist(tmp);
+			fin >> tmp;
 		}
+		lists.push_back(new_list);
+
 		_year = -1;
 	}
 	fin.close();
 	//cout << "close\n";
-	if(lists.empty()) return;
+
 	time_t currenttime;
 	time(&currenttime);
 	struct tm *current = localtime(&currenttime);
-	if(lists[lists.size()-1].get_yday() < current->tm_yday)
-		for(int i = lists[lists.size()-1].get_yday(); i <= current->tm_yday; i ++)
+
+	if(lists.empty())
+	{
+		review_list first_list(current->tm_year, current->tm_yday);
+		lists.push_back(first_list);
+	}
+
+	int recent_year = lists[lists.size()-1].get_year();
+	int recent_yday = lists[lists.size()-1].get_yday();
+	if(recent_year == current->tm_year && recent_yday < current->tm_yday)
+		for(int i = recent_yday+1; i <= current->tm_yday; i ++)
 		{
 			review_list new_list(current->tm_year, i);
 			lists.push_back(new_list);
 		}
+	//else if(recent_year < current->tm_year)
+		//for(int i = recent_year; i <= current->tm_year)
+			//for(int j = 0)
 }
 
 review_history_library::~review_history_library()
@@ -124,9 +142,10 @@ const int& review_list::get_yday()
         return yday;
 }
 
-void review_list::insert_review_history(string& new_history)
+void review_list::insert_review_history_inlist(string& new_history)
 {
         histories.push_back(new_history);
+        cout << "insert " << new_history << "!\n";
 }
 
 vector<string> review_list::get_histories()

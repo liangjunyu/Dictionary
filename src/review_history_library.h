@@ -16,7 +16,7 @@ public:
 	   iterator end();
 	   const int& get_year();
 	   const int& get_yday();
-       void insert_review_history(string& new_history);
+       void insert_review_history_inlist(string& new_history);
        review_list(int _year, int _yday);
        vector<string> get_histories();
 };
