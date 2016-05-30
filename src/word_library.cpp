@@ -46,7 +46,7 @@ void word_library::insert_word(string& _word_name)
     p->load_feature(pos, meaning);
 }
 
-void word_library::insert_user_word(string& _word_name, string& _pos, string& _meaning)
+/*void word_library::insert_user_word(string& _word_name, string& _pos, string& _meaning)
 {
 	newwords.insert(_word_name);
     if(word_map.count(_word_name) == 0)
@@ -57,10 +57,7 @@ void word_library::insert_user_word(string& _word_name, string& _pos, string& _m
     now->features.push_back(feature());
     auto p = now->features.end()-1;
     p->load_feature(_pos, _meaning);
-
-    ofstream fout;
-    fout.open("../data/worddata");
-}
+}*/
 
 word_library::word_library()
 {
@@ -151,6 +148,24 @@ const vector<feature>& word::get_features()
 
 const feature& word::get_feature(int i)
 {
+	if(features[i].is_loaded()) return features[i];
+	ifstream fin;
+	fin.open("../data/worddata/"+word_name+".dat");
+	int feat;
+	string eg;
+	fin >> feat;
+	while(!fin.fail())
+	{
+		getline(fin, eg);
+		getline(fin, eg);
+		if(feat == i)
+		{
+			features[i].insert_examples_f(eg);
+		}
+		fin >> feat;
+	}
+	fin.close();
+	features[i].loaded();
     return features[i];
 }
 
@@ -172,18 +187,19 @@ int word::features_count(){
     return features.size();
 }
 
-feature::feature(string& _pos, string& _meaning): pos(_pos), meaning(_meaning){}
+feature::feature(string& _pos, string& _meaning): pos(_pos), meaning(_meaning), is_loaded_(false){}
 
-feature::feature(){}
+feature::feature(): is_loaded_(false){}
 
 void feature::load_feature(string& _pos, string& _meaning){
     pos = _pos;
     meaning = _meaning;
 }
 
-void feature::insert_examples(const string& example)
+void feature::insert_examples_f(const string& example)
 {
     examples.push_back(example);
+    cout << "(" << example << ") inserted.\n";
 }
 
 const string& feature::get_pos()
@@ -197,7 +213,16 @@ const string& feature::get_meaning()
 }
 
 void word::insert_examples(int i, const string& example){
-    features[i].insert_examples(example);
+    features[i].insert_examples_f(example);
+    ofstream fout;
+    fout.open("../data/worddata/"+word_name+".dat", ios::app);
+    if(!fout)
+	{
+		cout << "Open " << word_name << ".dat error!\n";
+		return;
+	}
+    fout << i << endl << example << endl;
+    fout.close();
 }
 
 int feature::examples_count(){
@@ -206,4 +231,13 @@ int feature::examples_count(){
 
 const string& feature::get_example(int i){
     return examples[i];
+}
+bool feature::is_loaded()
+{
+	return is_loaded_;
+}
+
+void feature::loaded()
+{
+	is_loaded_ = true;
 }

@@ -37,9 +37,9 @@ void review_history_library::insert_review_history(string& new_history)
                 lists.push_back(new_list);
                 lists[lists.size()-1].insert_review_history_inlist(new_history);
         }
-        cout << 000 << new_history << endl;
+        //cout << 000 << new_history << endl;
 		word_lib.newwords.erase(new_history);
-		cout << 001 << new_history << endl;
+		//cout << 001 << new_history << endl;
 }
 
 void review_history_library::clear_review_history()
@@ -49,7 +49,7 @@ void review_history_library::clear_review_history()
 
 vector<string> review_history_library::get_list(int days)
 {
-	if(lists.size()-1-days >= 0)
+	if((int)lists.size()-1-days >= 0)
 		return lists[(int)lists.size()-1-days].get_histories();
 	else
 	{
@@ -68,23 +68,23 @@ review_history_library::review_history_library()
 		return;
 	}
 	//cout << "open\n";
-	int _year = -1, _yday;
+	int _year, _yday;
 	string tmp;
 	while(fin >> _year)
 	{
-		if(_year < 0) break;
+		if(fin.fail()) break;
 		fin >> _yday;
 		review_list new_list(_year, _yday);
-		fin >> tmp;
+		getline(fin, tmp);
+		getline(fin, tmp);
+		//cout << tmp << endl;
 		while(tmp != "#")
 		{
-			cout << "ready to insert " << tmp << "...\n";
+			//cout << "ready to insert " << tmp << "...\n";
 			new_list.insert_review_history_inlist(tmp);
-			fin >> tmp;
+			getline(fin, tmp);
 		}
 		lists.push_back(new_list);
-
-		_year = -1;
 	}
 	fin.close();
 	//cout << "close\n";
@@ -123,9 +123,9 @@ review_history_library::~review_history_library()
 	}
 	for(review_history_library::iterator it = lists.begin(); it != lists.end(); it ++)
 	{
-		fout << it->get_year() << ' ' << it->get_yday() << ' ';
+		fout << it->get_year() << endl << it->get_yday() << endl;
 		for(review_list::iterator itt = it->begin(); itt != it->end(); itt ++)
-			fout << *itt << ' ';
+			fout << *itt << endl;
 		fout << "#\n";
 	}
 
@@ -145,7 +145,7 @@ const int& review_list::get_yday()
 void review_list::insert_review_history_inlist(string& new_history)
 {
         histories.push_back(new_history);
-        cout << "insert " << new_history << "!\n";
+        //cout << "insert " << new_history << "!\n";
 }
 
 vector<string> review_list::get_histories()

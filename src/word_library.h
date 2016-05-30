@@ -13,15 +13,18 @@ class feature
         string pos;//part of speech
         string meaning;
         vector<string> examples;
+        bool is_loaded_;
 public:
         feature(string& _pos, string& _meaning);
         feature();
-        void insert_examples(const string& example);
+        void insert_examples_f(const string& example);
         const string& get_pos();
         const string& get_meaning();
         void load_feature(string&, string&);
         int examples_count();
         const string& get_example(int);
+        bool is_loaded();
+        void loaded();
 };
 
 class word
@@ -55,7 +58,7 @@ public:
         word_library();
         iterator begin();
         iterator end();
-        void insert_user_word(string&, string&, string&);
+        //void insert_user_word(string&, string&, string&);
         bool is_new_word(string word);
         string get_random_new_word();
 private:
