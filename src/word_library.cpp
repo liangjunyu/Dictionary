@@ -11,6 +11,8 @@
 #include<ctime>
 using namespace std;
 
+#define MAX_THREADS_AMOUNT 8
+
 word_library word_lib;
 
 
@@ -241,3 +243,13 @@ void feature::loaded()
 {
 	is_loaded_ = true;
 }
+
+void load_some_words(int l,int r){
+
+}
+
+
+
+
+
+
