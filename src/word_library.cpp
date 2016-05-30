@@ -11,7 +11,7 @@
 #include<ctime>
 using namespace std;
 
-#define MAX_THREADS_AMOUNT 8
+#define MAX_THREADS_AMOUNT 1
 
 word_library word_lib;
 
@@ -38,6 +38,7 @@ void word_library::insert_word(string& _word_name)
     if(word_map.count(_word_name) == 0)
 	{
         word_map[_word_name] = new word(_word_name);
+        word_list.push_back(word_map[_word_name]);
 	}
     auto now = word_map[_word_name];
     now->features.push_back(feature());
@@ -46,6 +47,7 @@ void word_library::insert_word(string& _word_name)
 
     auto p = now->features.end()-1;
     p->load_feature(pos, meaning);
+
 }
 
 /*void word_library::insert_user_word(string& _word_name, string& _pos, string& _meaning)
@@ -82,7 +84,7 @@ word_library::word_library()
         insert_word(_word_name);
         if(getline(fin, tmp).fail()) break;
     }
-    fin.close();
+    fin.close();    
 
     fin.open("../data/word_frequency");
     if(!fin)
@@ -114,6 +116,7 @@ word_library::word_library()
 		vit ++;
 	}
 
+    load_all_words();
 }
 
 word_library::iterator word_library::begin()
@@ -245,10 +248,24 @@ void feature::loaded()
 }
 
 void load_some_words(int l,int r){
-
+    // cout <<  l << endl;
+    for(int i = l;i<r;i++){
+        int m = word_lib.word_list[i]->features_count();
+        for(int j = 0;j<m;j++)
+            word_lib.word_list[i]->get_feature(j);
+    }
 }
 
-
+void word_library:: load_all_words(){
+    thread thread_list[MAX_THREADS_AMOUNT];
+    int words_count = word_map.size();
+    int batch_size = words_count/MAX_THREADS_AMOUNT;
+    for(int i = 0;i<MAX_THREADS_AMOUNT;i++){
+        thread_list[i] = thread(load_some_words, i*batch_size, (i+1)*batch_size);
+    }
+    for(auto& i:thread_list)
+        i.join();
+}
 
 
 

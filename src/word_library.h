@@ -5,6 +5,7 @@
 #include<map>
 #include<set>
 #include<fstream>
+#include <thread>
 // #include "search_strategy.h"
 using namespace std;
 
@@ -61,14 +62,15 @@ public:
         //void insert_user_word(string&, string&, string&);
         bool is_new_word(string word);
         string get_random_new_word();
-        vector<word*> word_list;
+        vector<word*> word_list;        
+
 private:
         map<string, word*> word_map;
         set<string> word_set;
         set<string> newwords;
         ifstream fin;
         string _word_name;
-        friend void load_all_words();
+        void load_all_words();
         friend void load_some_words(int, int);
 friend class review_history_library;
 };
