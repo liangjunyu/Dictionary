@@ -11,7 +11,7 @@
 #include<ctime>
 using namespace std;
 
-#define MAX_THREADS_AMOUNT 1
+#define MAX_THREADS_AMOUNT 4
 
 word_library word_lib;
 
@@ -204,7 +204,7 @@ void feature::load_feature(string& _pos, string& _meaning){
 void feature::insert_examples_f(const string& example)
 {
     examples.push_back(example);
-    cout << "(" << example << ") inserted.\n";
+    // cout << "(" << example << ") inserted.\n";
 }
 
 const string& feature::get_pos()
