@@ -6,6 +6,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <vector>
+#include <algorithm>
 #include "word_library.h"
 using namespace std;
 
@@ -23,6 +24,7 @@ public:
 	const feature& get_feature(int i);//get the i-th feature in the features
 	int get_level();
 	void insert_examples(int, const string&);
+	vector<word*> get_similarist_words();
 };
 
 
