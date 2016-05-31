@@ -32,5 +32,5 @@ void file_translation::run(){
             fout << endl;
 		    pch = strtok(NULL, " ,.-?!");
         }
-	}
+    }
 }
