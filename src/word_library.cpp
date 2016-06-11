@@ -11,7 +11,7 @@
 #include<ctime>
 using namespace std;
 
-#define MAX_THREADS_AMOUNT 4
+#define MAX_THREADS_AMOUNT 1
 
 word_library word_lib;
 
@@ -247,12 +247,11 @@ void feature::loaded()
 	is_loaded_ = true;
 }
 
-void load_some_words(int l,int r){
-    // cout <<  l << endl;
+void load_some_words(int l,int r){//load words whose index in [l, r)
     for(int i = l;i<r;i++){
-        int m = word_lib.word_list[i]->features_count();
+        int m = word_lib.word_list[i]->features_count();//get the amout of features
         for(int j = 0;j<m;j++)
-            word_lib.word_list[i]->get_feature(j);
+            word_lib.word_list[i]->get_feature(j);//get every feature's example sentences
     }
 }
 
@@ -261,7 +260,7 @@ void word_library:: load_all_words(){
     int words_count = word_map.size();
     int batch_size = words_count/MAX_THREADS_AMOUNT;
     for(int i = 0;i<MAX_THREADS_AMOUNT;i++){
-        thread_list[i] = thread(load_some_words, i*batch_size, (i+1)*batch_size);
+        thread_list[i] = thread(load_some_words, i*batch_size, (i+1)*batch_size);//construct thread
     }
     for(auto& i:thread_list)
         i.join();
